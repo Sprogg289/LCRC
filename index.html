@@ -1,0 +1,471 @@
+import React, { useState } from 'react';
+import { 
+  Home, 
+  Terminal, 
+  ShieldAlert, 
+  BookOpen, 
+  Menu, 
+  X,
+  UserCheck,
+  AlertTriangle,
+  Gavel,
+  LifeBuoy,
+  Settings,
+  Users,
+  Clock,
+  ShieldCheck,
+  FileText,
+  Target,
+  Heart,
+  Zap
+} from 'lucide-react';
+
+const COLORS = {
+  darkTeal: '#1A282F',
+  primaryTeal: '#29434E',
+  cream: '#F2F2EB',
+  textDark: '#1E2C33',
+  accentTeal: '#3D5A66'
+};
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [onDuty, setOnDuty] = useState(false);
+
+  const logoUrl = "https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png?ex=69bead70&is=69bd5bf0&hm=f9e26378e8949a77fc3acc04131129521c4f58e9346562e599b7dbca3a0a162e&";
+
+  const navigate = (tab) => {
+    setActiveTab(tab);
+    setIsMobileMenuOpen(false);
+  };
+
+  const SidebarItem = ({ icon: Icon, label, tabId }) => (
+    <button
+      onClick={() => navigate(tabId)}
+      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+        activeTab === tabId 
+          ? 'bg-[#29434E] text-[#F2F2EB] shadow-lg scale-105' 
+          : 'text-[#F2F2EB] opacity-70 hover:bg-[#29434E] hover:opacity-100'
+      }`}
+    >
+      <Icon size={20} />
+      <span className="font-semibold">{label}</span>
+    </button>
+  );
+
+  return (
+    <div className="flex h-screen w-full font-sans selection:bg-[#29434E] selection:text-white" style={{ backgroundColor: COLORS.cream, color: COLORS.textDark }}>
+      
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden" onClick={() => setIsMobileMenuOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside 
+        className={`fixed md:static inset-y-0 left-0 z-50 w-72 flex flex-col transform transition-transform duration-300 ease-in-out md:translate-x-0 shadow-2xl ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+        style={{ backgroundColor: COLORS.darkTeal }}
+      >
+        <div className="flex flex-col items-center pt-10 pb-8 border-b border-[#29434E]/50">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#29434E] to-[#3D5A66] rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+            <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 bg-white shadow-xl flex items-center justify-center" style={{ borderColor: COLORS.primaryTeal }}>
+              <img 
+                src={logoUrl} 
+                alt="LCRC Logo" 
+                className="w-full h-full object-contain p-2"
+                onError={(e) => { e.target.src = 'image_9c1be5.jpg'; }}
+              />
+            </div>
+          </div>
+          <h1 className="mt-6 text-center font-black text-xl leading-tight text-[#F2F2EB] px-6 tracking-tight">
+            LIBERTY COUNTY<br/>
+            <span className="text-xs font-bold opacity-60 uppercase tracking-[0.2em]">Roleplay Community</span>
+          </h1>
+          <div className="mt-4 px-4 py-1 text-[10px] font-black rounded-md bg-[#29434E] text-[#F2F2EB] uppercase tracking-widest shadow-inner">
+            Administration System
+          </div>
+        </div>
+
+        <nav className="flex-1 px-6 py-8 space-y-3 overflow-y-auto">
+          <SidebarItem icon={Home} label="Command Center" tabId="home" />
+          <SidebarItem icon={Terminal} label="Staff Commands" tabId="commands" />
+          <SidebarItem icon={ShieldAlert} label="Code of Conduct" tabId="rules" />
+          <SidebarItem icon={BookOpen} label="SOP Protocols" tabId="protocols" />
+        </nav>
+
+        <div className="p-6 border-t border-[#29434E]/50">
+            <button 
+              onClick={() => setOnDuty(!onDuty)}
+              className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 ${
+                onDuty ? 'bg-emerald-600 text-white shadow-emerald-900/20 shadow-lg' : 'bg-red-600/20 text-red-400 border border-red-900/50'
+              }`}
+            >
+              <div className={`w-2 h-2 rounded-full ${onDuty ? 'bg-emerald-300 animate-pulse' : 'bg-red-500'}`} />
+              {onDuty ? 'On Duty' : 'Off Duty'}
+            </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Mobile Header */}
+        <header className="md:hidden flex items-center justify-between p-4 shadow-md z-30" style={{ backgroundColor: COLORS.darkTeal, color: COLORS.cream }}>
+          <div className="flex items-center space-x-3">
+            <img src={logoUrl} alt="Logo" className="w-10 h-10 rounded-full bg-white p-1 object-contain" onError={(e) => { e.target.src = 'image_9c1be5.jpg'; }} />
+            <span className="font-bold tracking-tight">LCRC Staff</span>
+          </div>
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 hover:bg-[#29434E] rounded-lg transition-colors">
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </header>
+
+        {/* Scrollable Content Area */}
+        <div className="flex-1 overflow-y-auto p-4 md:p-10 lg:p-16">
+          <div className="max-w-6xl mx-auto">
+            {activeTab === 'home' && <HomeTab onDuty={onDuty} />}
+            {activeTab === 'commands' && <CommandsTab />}
+            {activeTab === 'rules' && <RulesTab />}
+            {activeTab === 'protocols' && <ProtocolsTab />}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+/* --- TAB COMPONENTS --- */
+
+function HomeTab({ onDuty }) {
+  const missions = [
+    {
+      title: "Community Growth",
+      icon: Users,
+      desc: "To foster a welcoming environment where new players can learn the art of roleplay without fear of judgment or harassment."
+    },
+    {
+      title: "Fair Adjudication",
+      icon: Gavel,
+      desc: "To ensure every administrative 'sit' is handled with neutral eyes, gathering all evidence before delivering a final decision."
+    },
+    {
+      title: "Integrity & Respect",
+      icon: ShieldCheck,
+      desc: "To act as role models for the community, demonstrating the high standards of behavior we expect from our players."
+    },
+    {
+      title: "Immersive Excellence",
+      icon: Target,
+      desc: "To protect the realism of the server by efficiently removing rule-breakers who disrupt the immersive experience of others."
+    },
+    {
+      title: "Educational Support",
+      icon: BookOpen,
+      desc: "To prioritize teaching over punishing, helping players understand 'why' a rule exists so they become better community members."
+    },
+    {
+      title: "Active Vigilance",
+      icon: Zap,
+      desc: "To maintain a proactive presence in-game, identifying and resolving issues before they escalate into major disruptions."
+    }
+  ];
+
+  return (
+    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      {/* Hero Section */}
+      <div className="relative bg-[#1A282F] p-10 md:p-14 rounded-[2.5rem] shadow-2xl overflow-hidden text-white border border-white/5">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#29434E] opacity-20 -mr-32 -mt-32 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#3D5A66] opacity-10 -ml-20 -mb-20 rounded-full blur-2xl"></div>
+        
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-500/20">
+                System Active
+              </span>
+              <span className="text-white/40 text-[10px] font-bold">V4.5.0</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-none">
+              Welcome to the <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Command Center.</span>
+            </h2>
+            <p className="text-white/60 text-lg md:text-xl leading-relaxed font-medium">
+              You are currently accessing the secure administrative portal for Liberty County Roleplay. 
+              Review your protocols and ensure the community remains safe and professional.
+            </p>
+          </div>
+          <div className="hidden lg:block w-48 h-48 opacity-20">
+             <ShieldCheck size={192} strokeWidth={1} />
+          </div>
+        </div>
+      </div>
+
+      {/* Staff Mission & Values - Expanded Section */}
+      <div className="space-y-8">
+        <div className="flex items-center gap-4">
+          <div className="h-px flex-1 bg-gray-200"></div>
+          <h3 className="text-xl font-black text-[#1A282F] uppercase tracking-widest flex items-center gap-3">
+            <Target size={24} className="text-[#29434E]" />
+            Staff Mission & Values
+          </h3>
+          <div className="h-px flex-1 bg-gray-200"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {missions.map((mission, idx) => (
+            <div key={idx} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-12 h-12 rounded-2xl bg-[#F2F2EB] text-[#29434E] flex items-center justify-center mb-6 group-hover:bg-[#29434E] group-hover:text-white transition-colors duration-300">
+                <mission.icon size={24} />
+              </div>
+              <h4 className="font-black text-lg mb-3 text-[#1A282F]">{mission.title}</h4>
+              <p className="text-gray-500 text-sm leading-relaxed font-medium">{mission.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-4 opacity-5">
+            <FileText size={120} />
+          </div>
+          <h4 className="font-black text-xl mb-6 flex items-center gap-2 text-[#1A282F]">
+            <Heart size={20} className="text-red-500" />
+            The LCRC Core Promise
+          </h4>
+          <p className="text-gray-600 text-lg leading-relaxed italic font-medium">
+            "Our primary mission is to facilitate an immersive and realistic roleplay environment. We prioritize de-escalation over punishment, education over bans, and fairness over personal bias. Every staff member is a pillar of the LCRC community—we lead by example, act with integrity, and serve our players with professionalism."
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CommandsTab() {
+  const commandCategories = [
+    {
+      title: "Moderation Essentials",
+      icon: ShieldAlert,
+      commands: [
+        { cmd: ":warn [user] [reason]", desc: "Issues a permanent warning to the player's profile." },
+        { cmd: ":kick [user] [reason]", desc: "Removes player from current session for minor infractions." },
+        { cmd: ":ban [user] [time] [reason]", desc: "Temporary ban. Format: :ban player 12h RDM." },
+        { cmd: ":pban [user] [reason]", desc: "Permanent ban for major offenses (Exploiting, Trolling)." },
+        { cmd: ":unban [userId]", desc: "Revokes a ban via Roblox ID." },
+      ]
+    },
+    {
+      title: "Communication & Control",
+      icon: Users,
+      commands: [
+        { cmd: ":mute [user]", desc: "Prevents a user from typing or using voice chat." },
+        { cmd: ":unmute [user]", desc: "Restores a user's communication permissions." },
+        { cmd: ":tp [user1] [user2]", desc: "Moves User1 to User2. Ideal for gathering parties for sits." },
+        { cmd: ":to [user]", desc: "Move your character to a specific player for observation." },
+        { cmd: ":bring [user]", desc: "Brings a player to your exact location." },
+        { cmd: ":view [user]", desc: "Camera spectate. Must be used before interacting in a sit." },
+      ]
+    },
+    {
+      title: "Environment Administration",
+      icon: Settings,
+      commands: [
+        { cmd: ":h [message]", desc: "Global broadcast displayed at the top of every player's screen." },
+        { cmd: ":m [message]", desc: "Center-screen modal message. Used for server-wide RP pauses." },
+        { cmd: ":time [hour]", desc: "Overrides server clock (0-23)." },
+        { cmd: ":weather [type]", desc: "Sunny, Rain, Thunder, Fog, Blizzard." },
+        { cmd: ":shutdown", desc: "Closes the private server for updates or session end." }
+      ]
+    }
+  ];
+
+  return (
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h2 className="text-4xl font-black tracking-tight" style={{ color: COLORS.darkTeal }}>Command Database</h2>
+          <p className="text-gray-500 font-medium">Approved administrative syntax for Private Server Console.</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-10">
+        {commandCategories.map((category, idx) => (
+          <div key={idx} className="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
+            <div className="px-8 py-6 border-b border-gray-100 flex items-center gap-4" style={{ backgroundColor: COLORS.darkTeal }}>
+              <div className="p-2 bg-white/10 rounded-lg text-white">
+                <category.icon size={20} />
+              </div>
+              <h3 className="font-extrabold text-xl text-white">{category.title}</h3>
+            </div>
+            <div className="divide-y divide-gray-50">
+              {category.commands.map((cmdItem, cIdx) => (
+                <div key={cIdx} className="p-6 md:p-8 flex flex-col lg:flex-row lg:items-center gap-6 hover:bg-gray-50/80 transition-all">
+                  <div className="lg:w-1/3">
+                    <code className="px-4 py-2.5 rounded-xl bg-[#1A282F] text-emerald-400 font-mono text-sm font-bold border border-white/10 block text-center lg:text-left shadow-lg">
+                      {cmdItem.cmd}
+                    </code>
+                  </div>
+                  <div className="lg:w-2/3 text-gray-600 font-medium leading-relaxed">
+                    {cmdItem.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function RulesTab() {
+  const rules = [
+    {
+      title: "Administrative Integrity",
+      content: "Staff members must never use their permissions to influence RP they are involved in. If you are in a pursuit and someone breaks a rule, finish the pursuit or call a different staff member to handle the scene."
+    },
+    {
+      title: "Anti-Leak Policy",
+      content: "Any information shared in staff-only Discord channels, including meeting notes, upcoming updates, or staff discussions, is strictly confidential. Leaking results in a permanent ban and blacklisting."
+    },
+    {
+      title: "No Mini-Modding",
+      content: "Do not allow regular players to perform staff duties. Do not 'hire' players to watch others. You are the staff; the responsibility lies solely with you."
+    },
+    {
+      title: "Professional Communication",
+      content: "Avoid using slang, abbreviations, or informal language when speaking to players during a staff sit. Use full sentences and maintain a calm, helpful tone regardless of player attitude."
+    },
+    {
+      title: "Bias & Favoritism",
+      content: "Treat all players equally. Friends, family, or fellow staff members are subject to the same rules as new players. If you cannot be impartial, recuse yourself from the situation."
+    },
+    {
+      title: "Channel Etiquette",
+      content: "Do not spam staff-related channels. Use the appropriate channels for reports, logs, and general chat. Keep administrative channels strictly focused on server business."
+    }
+  ];
+
+  return (
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="border-l-8 pl-8 py-2" style={{ borderColor: COLORS.primaryTeal }}>
+        <h2 className="text-4xl font-black uppercase tracking-tight" style={{ color: COLORS.darkTeal }}>Code of Conduct</h2>
+        <p className="text-gray-500 mt-2 font-bold tracking-widest text-sm uppercase">LCRC Staff Regulations</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {rules.map((rule, idx) => (
+          <div key={idx} className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:border-[#29434E] hover:shadow-xl transition-all group">
+            <div className="flex items-center gap-4 mb-5">
+               <div className="w-10 h-10 rounded-2xl bg-[#1A282F] text-white flex items-center justify-center font-black group-hover:rotate-12 transition-transform shadow-lg">
+                {idx + 1}
+              </div>
+              <h3 className="font-extrabold text-xl leading-tight" style={{ color: COLORS.primaryTeal }}>{rule.title}</h3>
+            </div>
+            <p className="text-gray-600 leading-relaxed font-medium">{rule.content}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProtocolsTab() {
+  const protocols = [
+    {
+      name: "Random Deathmatch (RDM)",
+      tags: ["High Priority", "Violent"],
+      steps: [
+        "Spectate the user using :view to confirm intent.",
+        "Bring the suspect and victim to a secluded area.",
+        "Request clips in Discord. Do not rely on word-of-mouth.",
+        "Check logs: If no RP preceded the kill, it is RDM.",
+        "Punishment: Warning for 1st offense, 48h Ban for 2nd."
+      ]
+    },
+    {
+      name: "New Life Rule (NLR)",
+      tags: ["Medium Priority", "RP Break"],
+      steps: [
+        "If a player dies, they lose all memory of the previous scene.",
+        "They must stay 500+ studs away from their death location for 10 minutes.",
+        "If they return to 'get revenge', freeze them and explain the rule.",
+        "Force-teleport them to spawn if they refuse to leave.",
+        "Issue a 'FailRP - NLR' warning if they persist."
+      ]
+    },
+    {
+      name: "Fear Roleplay (FearRP)",
+      tags: ["Medium Priority", "RP Break"],
+      steps: [
+        "Applicable when a player is at a clear disadvantage (e.g., 3 guns pointed at them).",
+        "If a player pulls a weapon while being held at gunpoint, they are breaking FearRP.",
+        "Pause the scene immediately using :m.",
+        "Explain that their character would value their life.",
+        "Void the scene or warn if the player continues to Powergame."
+      ]
+    },
+    {
+      name: "Metagaming",
+      tags: ["High Priority", "Information"],
+      steps: [
+        "Using out-of-character info (Discord, Streams) for in-game advantage.",
+        "Check if a player 'randomly' found a hidden base or knew a name they weren't told.",
+        "Verify if info was shared in a Discord voice channel.",
+        "Issue a heavy warning. Metagaming ruins long-term RP arcs."
+      ]
+    },
+    {
+        name: "Leaving to Avoid (LTA)",
+        tags: ["High Priority", "Evasion"],
+        steps: [
+          "Usually occurs during hand-cuffing or staff sits.",
+          "Check logs to see if they 'Disconnected' (Quit) or 'Timed Out' (Crash).",
+          "If they do not return within 5 minutes, it is an intentional LTA.",
+          "Apply an offline ban of 24-72 hours."
+        ]
+      }
+  ];
+
+  return (
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div>
+        <h2 className="text-4xl font-black tracking-tight" style={{ color: COLORS.darkTeal }}>Operating Protocols</h2>
+        <p className="text-gray-500 font-medium">Step-by-step Standard Operating Procedures for common violations.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {protocols.map((proto, idx) => (
+          <div key={idx} className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col overflow-hidden hover:shadow-2xl transition-all border-b-4" style={{ borderBottomColor: COLORS.primaryTeal }}>
+            <div className="p-8 pb-4">
+               <div className="flex flex-wrap gap-2 mb-4">
+                {proto.tags.map((tag, tIdx) => (
+                  <span key={tIdx} className={`text-[10px] font-black px-3 py-1 rounded-lg uppercase tracking-widest ${
+                    tag === 'High Priority' ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-slate-100 text-slate-500 border border-slate-200'
+                  }`}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 className="font-black text-2xl mb-4" style={{ color: COLORS.darkTeal }}>{proto.name}</h3>
+            </div>
+            
+            <div className="p-8 pt-0 flex-1">
+              <div className="space-y-4">
+                {proto.steps.map((step, sIdx) => (
+                  <div key={sIdx} className="flex items-start gap-4">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#F2F2EB] text-[#29434E] flex items-center justify-center text-[10px] font-black">
+                        {sIdx + 1}
+                    </span>
+                    <p className="text-gray-600 text-sm font-medium leading-relaxed">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
