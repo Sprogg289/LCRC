@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LCRC Staff Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Added 'defer' to ensure Alpine.js initializes after the DOM is ready -->
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -30,10 +29,8 @@
         }
     </style>
 </head>
-<!-- LOGO TEMPLATE: Change the 'logoUrl' value below to update the logo everywhere -->
 <body x-data="{ 
     activeTab: 'home', 
-    onDuty: false, 
     mobileMenu: false,
     logoUrl: 'https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png?ex=69bead70&is=69bd5bf0&hm=f9e26378e8949a77fc3acc04131129521c4f58e9346562e599b7dbca3a0a162e&' 
 }">
@@ -56,12 +53,10 @@
         <aside :class="mobileMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
                class="fixed md:static inset-y-0 left-0 z-50 w-72 flex flex-col transform transition-transform duration-300 ease-in-out shadow-2xl bg-dark-teal">
             
-            <!-- Logo Section -->
             <div class="flex flex-col items-center pt-10 pb-8 border-b border-[#29434E]/50">
                 <div class="relative group">
                     <div class="absolute -inset-1 bg-gradient-to-r from-[#29434E] to-[#3D5A66] rounded-full blur opacity-25"></div>
                     <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-primary-teal bg-white shadow-xl flex items-center justify-center">
-                        <!-- Uses the template logoUrl -->
                         <img :src="logoUrl" 
                              alt="LCRC Logo" 
                              class="w-full h-full object-contain p-2"
@@ -77,7 +72,6 @@
                 </div>
             </div>
 
-            <!-- Navigation -->
             <nav class="flex-1 px-6 py-8 space-y-3 overflow-y-auto sidebar-scroll">
                 <template x-for="item in [
                     { id: 'home', label: 'Command Center', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -94,26 +88,15 @@
                 </template>
             </nav>
 
-            <!-- Duty Toggle -->
-            <div class="p-6 border-t border-[#29434E]/50">
-                <button @click="onDuty = !onDuty"
-                        :class="onDuty ? 'bg-emerald-600 text-white shadow-emerald-900/20 shadow-lg' : 'bg-[#29434E] text-cream opacity-60 border border-white/5'"
-                        class="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
-                    <div :class="onDuty ? 'bg-emerald-300 animate-pulse' : 'bg-gray-500'" class="w-2 h-2 rounded-full"></div>
-                    <span x-text="onDuty ? 'On Duty' : 'Off Duty'"></span>
-                </button>
+            <div class="p-6 border-t border-[#29434E]/50 text-center">
+                <span class="text-[10px] font-bold text-cream/30 uppercase tracking-widest">Authorized Access Only</span>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="flex-1 flex flex-col h-full overflow-hidden">
-            <!-- Mobile Header -->
             <header class="md:hidden flex items-center justify-between p-4 shadow-md z-30 bg-dark-teal text-cream">
                 <div class="flex items-center space-x-3">
-                    <!-- Uses the template logoUrl -->
-                    <img :src="logoUrl" 
-                         class="w-10 h-10 rounded-full bg-white p-1 object-contain"
-                         onerror="this.src='https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png'">
+                    <img :src="logoUrl" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
                     <span class="font-bold tracking-tight">LCRC Staff</span>
                 </div>
                 <button @click="mobileMenu = !mobileMenu" class="p-2 hover:bg-primary-teal rounded-lg transition-colors">
@@ -122,94 +105,123 @@
                 </button>
             </header>
 
-            <!-- Content Area -->
             <div class="flex-1 overflow-y-auto p-4 md:p-10 lg:p-16">
                 <div class="max-w-6xl mx-auto">
                     
                     <!-- Home Tab -->
                     <div x-show="activeTab === 'home'" x-transition class="space-y-12">
-                        <!-- Hero Section -->
                         <div class="relative bg-dark-teal p-10 md:p-14 rounded-[2.5rem] shadow-2xl overflow-hidden text-white border border-white/5">
                             <div class="absolute top-0 right-0 w-96 h-96 bg-primary-teal opacity-20 -mr-32 -mt-32 rounded-full blur-3xl"></div>
-                            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-                                <div class="max-w-2xl">
-                                    <div class="flex items-center gap-3 mb-6">
-                                        <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-500/20">System Active</span>
-                                        <span class="text-white/40 text-[10px] font-bold">V4.5.0</span>
-                                    </div>
-                                    <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-none">
-                                        Welcome to the <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Command Center.</span>
-                                    </h2>
-                                    <p class="text-white/60 text-lg md:text-xl leading-relaxed font-medium">
-                                        You are currently accessing the secure administrative portal for Liberty County Roleplay. 
-                                        Review your protocols and ensure the community remains safe and professional.
-                                    </p>
-                                </div>
+                            <div class="relative z-10">
+                                <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tight">Welcome, <span class="text-emerald-400">Staff Member.</span></h2>
+                                <p class="text-white/60 text-lg leading-relaxed max-w-2xl font-medium">This portal serves as the primary resource for LCRC staff. Our community thrives on professionalism, respect, and high-quality roleplay.</p>
                             </div>
                         </div>
 
-                        <!-- HIGHLIGHTS SECTION -->
-                        <div class="space-y-6">
+                        <!-- Community & Staff Highlights -->
+                        <div class="space-y-8">
                             <div class="flex items-center gap-4">
-                                <h3 class="text-xl font-black text-dark-teal uppercase tracking-widest">Community Highlights</h3>
+                                <h3 class="text-xl font-black text-dark-teal uppercase tracking-widest shrink-0">Community Highlights & Values</h3>
                                 <div class="h-px flex-1 bg-gray-200"></div>
                             </div>
                             
-                            <!-- Highlight Image Placeholder -->
-                            <div class="rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 bg-white">
-                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2000" 
-                                     alt="Staff Showcase" 
-                                     class="w-full h-auto max-h-[500px] object-cover"
-                                     onerror="this.style.display='none'">
-                                <div class="p-6 bg-white flex justify-between items-center">
-                                    <p class="text-gray-500 font-bold text-sm uppercase tracking-widest">Latest Community Update</p>
-                                    <span class="text-[10px] text-gray-400 font-mono">ID: 08221</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Staff Mission Section -->
-                        <div class="space-y-8">
-                            <div class="flex items-center gap-4">
-                                <div class="h-px flex-1 bg-gray-200"></div>
-                                <h3 class="text-xl font-black text-dark-teal uppercase tracking-widest">Staff Mission & Values</h3>
-                                <div class="h-px flex-1 bg-gray-200"></div>
-                            </div>
-
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <template x-for="mission in [
-                                    { title: 'Community Growth', desc: 'To foster a welcoming environment where new players can learn the art of roleplay without fear.' },
-                                    { title: 'Fair Adjudication', desc: 'To ensure every administrative sit is handled with neutral eyes and evidence-based decisions.' },
-                                    { title: 'Integrity & Respect', desc: 'To act as role models, demonstrating the high standards of behavior we expect.' },
-                                    { title: 'Immersive Excellence', desc: 'To protect the realism of the server by efficiently removing rule-breakers.' },
-                                    { title: 'Educational Support', desc: 'To prioritize teaching over punishing, helping players understand why rules exist.' },
-                                    { title: 'Active Vigilance', desc: 'To maintain a proactive presence in-game, identifying issues before they escalate.' }
-                                ]">
-                                    <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                        <h4 class="font-black text-lg mb-3 text-dark-teal" x-text="mission.title"></h4>
-                                        <p class="text-gray-500 text-sm leading-relaxed font-medium" x-text="mission.desc"></p>
+                                <!-- Highlight 1: Community Spirit -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                     </div>
-                                </template>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">Community First</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">LCRC is built on the passion of our players. As staff, our goal is to facilitate fun while maintaining order and safety for everyone.</p>
+                                </div>
+
+                                <!-- Highlight 2: Professionalism -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                    </div>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">Staff Integrity</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">We expect every staff member to act with honesty. Admitting mistakes and learning from them is how we grow as a team.</p>
+                                </div>
+
+                                <!-- Highlight 3: High Quality RP -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"></path></svg>
+                                    </div>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">RP Excellence</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">Promoting immersive storylines and realistic interactions. Staff should guide players toward better roleplay habits.</p>
+                                </div>
+
+                                <!-- Highlight 4: Fair Play -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                                    </div>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">Rules & Fairness</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">The rules apply to everyone equally. No favoritism, no exceptions. We maintain a level playing field for all users.</p>
+                                </div>
+
+                                <!-- Highlight 5: Support -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                    </div>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">Active Support</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">Being a staff member means being helpful. Answer questions, guide new players, and be a positive force in the server.</p>
+                                </div>
+
+                                <!-- Highlight 6: Respect -->
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="w-12 h-12 bg-cyan-100 rounded-2xl flex items-center justify-center mb-6">
+                                        <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <h4 class="font-black text-xl text-dark-teal mb-3">Mutual Respect</h4>
+                                    <p class="text-gray-500 text-sm font-medium leading-relaxed">Treat every player with the respect you expect in return. De-escalation is our most powerful moderation tool.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Commands Tab -->
                     <div x-show="activeTab === 'commands'" x-cloak class="space-y-10">
-                        <h2 class="text-4xl font-black tracking-tight text-dark-teal">Command Database</h2>
-                        <div class="grid grid-cols-1 gap-10">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                            <div>
+                                <h2 class="text-4xl font-black tracking-tight text-dark-teal">Staff Command Database</h2>
+                                <p class="text-gray-500 font-medium mt-2">Authorized commands for moderation and player management.</p>
+                            </div>
+                            <div class="bg-primary-teal/10 px-4 py-2 rounded-xl border border-primary-teal/20">
+                                <span class="text-primary-teal font-bold text-xs uppercase tracking-widest">Prefix: :</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-8">
                             <template x-for="cat in [
-                                { title: 'Moderation Essentials', commands: [{c:':warn [u] [r]', d:'Issues a permanent warning.'}, {c:':kick [u] [r]', d:'Removes player from session.'}] },
-                                { title: 'Communication', commands: [{c:':mute [u]', d:'Prevents user from typing.'}, {c:':tp [u1] [u2]', d:'Moves User1 to User2.'}] }
+                                { title: 'Essential Moderation', commands: [
+                                    {c:':warn [user] [reason]', d:'Logs a formal warning on the user record. 3 warnings = automatic kick.'},
+                                    {c:':kick [user] [reason]', d:'Disconnects the user from the current session.'},
+                                    {c:':ban [user] [time] [reason]', d:'Prevents access for a specified duration (e.g., 24h, 7d).'},
+                                    {c:':pban [user] [reason]', d:'Permanent exclusion from LCRC servers.'}
+                                ] },
+                                { title: 'Communication Tools', commands: [
+                                    {c:':m [message]', d:'Global announcement visible to all players.'},
+                                    {c:':h [message]', d:'Hint message displayed at the top of the screen.'},
+                                    {c:':pm [user] [message]', d:'Private message to a specific player for admin sits.'},
+                                    {c:':mute [user]', d:'Disables a player\'s ability to use text chat.'}
+                                ] }
                             ]">
                                 <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
-                                    <div class="px-8 py-6 bg-dark-teal text-white font-extrabold text-xl" x-text="cat.title"></div>
-                                    <template x-for="cmd in cat.commands">
-                                        <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-6 border-b border-gray-50">
-                                            <code class="lg:w-1/3 px-4 py-2 bg-dark-teal text-emerald-400 font-mono text-sm rounded-xl" x-text="cmd.c"></code>
-                                            <div class="lg:w-2/3 text-gray-600 font-medium" x-text="cmd.d"></div>
-                                        </div>
-                                    </template>
+                                    <div class="px-8 py-5 bg-dark-teal text-white font-black text-lg tracking-wide" x-text="cat.title"></div>
+                                    <div class="divide-y divide-gray-50">
+                                        <template x-for="cmd in cat.commands">
+                                            <div class="p-6 md:p-8 flex flex-col lg:flex-row gap-6 hover:bg-gray-50/50 transition-colors">
+                                                <div class="lg:w-1/3">
+                                                    <code class="inline-block px-4 py-2 bg-slate-100 text-emerald-600 font-mono text-sm rounded-lg border border-slate-200" x-text="cmd.c"></code>
+                                                </div>
+                                                <div class="lg:w-2/3 text-gray-600 font-medium leading-relaxed" x-text="cmd.d"></div>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -219,24 +231,35 @@
                     <div x-show="activeTab === 'rules'" x-cloak class="space-y-10">
                         <div class="relative rounded-[2.5rem] overflow-hidden bg-dark-teal p-1 flex items-center shadow-lg border border-white/5">
                             <div class="w-full h-32 md:h-48 relative">
-                                <img src="image_9c8923.png" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Rules Banner">
+                                <img src="image_9c8923.png" class="absolute inset-0 w-full h-full object-cover opacity-40">
                                 <div class="absolute inset-0 bg-gradient-to-r from-dark-teal via-dark-teal/80 to-transparent flex items-center px-10">
                                     <div class="border-l-8 border-primary-teal pl-6">
-                                        <h2 class="text-3xl md:text-4xl font-black uppercase text-white tracking-tight">Code of Conduct</h2>
-                                        <p class="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">Staff Guidelines & Regulations</p>
+                                        <h2 class="text-3xl md:text-4xl font-black uppercase text-white tracking-tight">Staff Code of Conduct</h2>
+                                        <p class="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">Ethical Standards</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <template x-for="(rule, i) in [
-                                { t: 'Administrative Integrity', c: 'Never use permissions to influence RP you are involved in.' },
-                                { t: 'Anti-Leak Policy', c: 'Staff info is strictly confidential. Leaks result in permanent bans.' },
-                                { t: 'No Mini-Modding', c: 'Do not allow regular players to perform staff duties.' }
+                                { t: 'Impartiality', c: 'Staff must remain neutral in all conflicts. Do not favor friends or fellow staff members in administrative sits.' },
+                                { t: 'Professionalism', c: 'Maintain a mature tone. Avoid slang or arguments in global chat. You represent the community brand.' },
+                                { t: 'Permission to Play', c: 'Staff are allowed to roleplay, but MUST drop their RP immediately if a report or sit requires attention.' },
+                                { t: 'Abuse of Power', c: 'Using commands for personal gain, trolling, or skipping RP timers will result in immediate demotion.' },
+                                { t: 'Evidence Handling', c: 'Always record or screenshot evidence before taking major action. Log all significant sits.' },
+                                { t: 'Chain of Command', c: 'Respect higher-ranking staff. If you disagree with a decision, take it to DMs, never argue in-game.' }
                             ]">
-                                <div class="bg-white p-8 rounded-[2rem] border border-gray-100 hover:border-primary-teal transition-all">
-                                    <h3 class="font-extrabold text-xl mb-4 text-primary-teal" x-text="rule.t"></h3>
-                                    <p class="text-gray-600 font-medium" x-text="rule.c"></p>
+                                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-primary-teal/10 flex items-center justify-center shrink-0">
+                                            <span class="text-primary-teal font-black text-lg" x-text="i+1"></span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-black text-xl mb-3 text-dark-teal" x-text="rule.t"></h3>
+                                            <p class="text-gray-500 font-medium leading-relaxed" x-text="rule.c"></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -244,20 +267,47 @@
 
                     <!-- Protocols Tab -->
                     <div x-show="activeTab === 'protocols'" x-cloak class="space-y-10">
-                        <h2 class="text-4xl font-black tracking-tight text-dark-teal">Operating Protocols</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-4xl font-black tracking-tight text-dark-teal">Standard Operating Procedures</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-8">
                             <template x-for="proto in [
-                                { n: 'Random Deathmatch (RDM)', s: ['Spectate intent', 'Bring to sit area', 'Request clips'] },
-                                { n: 'New Life Rule (NLR)', s: ['Stay 500+ studs away', 'Wait 10 minutes', 'Void scene if broken'] }
+                                { title: 'Administrative Sit Protocol', steps: [
+                                    'Claim the report in the staff system.',
+                                    'Move to a secure location (roof/admin building).',
+                                    'Bring all involved parties.',
+                                    'Ask for both sides of the story. Do not interrupt.',
+                                    'Check logs or request video evidence (POV).',
+                                    'Issue punishment or verbal warning based on rules.',
+                                    'Return players to previous locations.'
+                                ] },
+                                { title: 'Handling Failure to RP (FRP)', steps: [
+                                    'Verify if the player ignored realistic consequences.',
+                                    'Remind the player of the specific rule being broken.',
+                                    'Offer a verbal warning for first offenses.',
+                                    'Restart the scene if necessary for immersion.',
+                                    'Issue formal :warn for repeat offenses.'
+                                ] },
+                                { title: 'Mass RDM / Trolling Response', steps: [
+                                    'Identify the offender via kill logs.',
+                                    'Teleport the user away from public areas.',
+                                    'Confirm the scale of the rule-breaking.',
+                                    'Issue a 48h ban minimum for Mass RDM.',
+                                    'Notify higher ranking staff for P-Ban review.'
+                                ] }
                             ]">
-                                <div class="bg-white rounded-[2.5rem] shadow-sm border-b-4 border-primary-teal overflow-hidden">
-                                    <div class="p-8">
-                                        <h3 class="font-black text-2xl mb-4 text-dark-teal" x-text="proto.n"></h3>
-                                        <div class="space-y-3">
-                                            <template x-for="(step, si) in proto.s">
-                                                <div class="flex items-center gap-3">
-                                                    <span class="w-5 h-5 flex items-center justify-center bg-gray-100 rounded-full text-[10px] font-bold" x-text="si+1"></span>
-                                                    <p class="text-sm text-gray-600 font-medium" x-text="step"></p>
+                                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
+                                    <div class="p-8 md:p-10">
+                                        <h3 class="font-black text-2xl mb-8 text-primary-teal flex items-center gap-4">
+                                            <div class="w-2 h-8 bg-primary-teal rounded-full"></div>
+                                            <span x-text="proto.title"></span>
+                                        </h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+                                            <template x-for="(step, idx) in proto.steps">
+                                                <div class="flex gap-4 items-start py-2 border-b border-gray-50">
+                                                    <span class="text-emerald-500 font-black text-sm" x-text="'0' + (idx+1)"></span>
+                                                    <p class="text-gray-600 font-medium text-sm leading-relaxed" x-text="step"></p>
                                                 </div>
                                             </template>
                                         </div>
