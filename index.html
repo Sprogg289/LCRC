@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LCRC Staff Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Added 'defer' to ensure Alpine.js initializes after the DOM is ready -->
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +21,6 @@
         
         [x-cloak] { display: none !important; }
 
-        /* Custom scrollbar for sidebar */
         .sidebar-scroll::-webkit-scrollbar {
             width: 4px;
         }
@@ -30,7 +30,13 @@
         }
     </style>
 </head>
-<body x-data="{ activeTab: 'home', onDuty: false, mobileMenu: false }">
+<!-- LOGO TEMPLATE: Change the 'logoUrl' value below to update the logo everywhere -->
+<body x-data="{ 
+    activeTab: 'home', 
+    onDuty: false, 
+    mobileMenu: false,
+    logoUrl: 'https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png?ex=69bead70&is=69bd5bf0&hm=f9e26378e8949a77fc3acc04131129521c4f58e9346562e599b7dbca3a0a162e&' 
+}">
 
     <div class="flex h-screen w-full overflow-hidden">
         
@@ -55,10 +61,11 @@
                 <div class="relative group">
                     <div class="absolute -inset-1 bg-gradient-to-r from-[#29434E] to-[#3D5A66] rounded-full blur opacity-25"></div>
                     <div class="relative w-32 h-32 rounded-full overflow-hidden border-4 border-primary-teal bg-white shadow-xl flex items-center justify-center">
-                        <img src="https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png?ex=69bead70&is=69bd5bf0&hm=f9e26378e8949a77fc3acc04131129521c4f58e9346562e599b7dbca3a0a162e&" 
+                        <!-- Uses the template logoUrl -->
+                        <img :src="logoUrl" 
                              alt="LCRC Logo" 
                              class="w-full h-full object-contain p-2"
-                             onerror="this.src='image_9c1be5.jpg'">
+                             onerror="this.src='https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png'">
                     </div>
                 </div>
                 <h1 class="mt-6 text-center font-black text-xl leading-tight text-cream px-6 tracking-tight">
@@ -90,9 +97,9 @@
             <!-- Duty Toggle -->
             <div class="p-6 border-t border-[#29434E]/50">
                 <button @click="onDuty = !onDuty"
-                        :class="onDuty ? 'bg-emerald-600 text-white shadow-emerald-900/20 shadow-lg' : 'bg-red-600/20 text-red-400 border border-red-900/50'"
+                        :class="onDuty ? 'bg-emerald-600 text-white shadow-emerald-900/20 shadow-lg' : 'bg-[#29434E] text-cream opacity-60 border border-white/5'"
                         class="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
-                    <div :class="onDuty ? 'bg-emerald-300 animate-pulse' : 'bg-red-500'" class="w-2 h-2 rounded-full"></div>
+                    <div :class="onDuty ? 'bg-emerald-300 animate-pulse' : 'bg-gray-500'" class="w-2 h-2 rounded-full"></div>
                     <span x-text="onDuty ? 'On Duty' : 'Off Duty'"></span>
                 </button>
             </div>
@@ -103,9 +110,10 @@
             <!-- Mobile Header -->
             <header class="md:hidden flex items-center justify-between p-4 shadow-md z-30 bg-dark-teal text-cream">
                 <div class="flex items-center space-x-3">
-                    <img src="https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png?ex=69bead70&is=69bd5bf0&hm=f9e26378e8949a77fc3acc04131129521c4f58e9346562e599b7dbca3a0a162e&" 
+                    <!-- Uses the template logoUrl -->
+                    <img :src="logoUrl" 
                          class="w-10 h-10 rounded-full bg-white p-1 object-contain"
-                         onerror="this.src='image_9c1be5.jpg'">
+                         onerror="this.src='https://cdn.discordapp.com/attachments/1484561769287516211/1484561823490375881/Liberty_County_Roleplay_logo_design.png'">
                     <span class="font-bold tracking-tight">LCRC Staff</span>
                 </div>
                 <button @click="mobileMenu = !mobileMenu" class="p-2 hover:bg-primary-teal rounded-lg transition-colors">
@@ -136,6 +144,26 @@
                                         You are currently accessing the secure administrative portal for Liberty County Roleplay. 
                                         Review your protocols and ensure the community remains safe and professional.
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HIGHLIGHTS SECTION -->
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <h3 class="text-xl font-black text-dark-teal uppercase tracking-widest">Community Highlights</h3>
+                                <div class="h-px flex-1 bg-gray-200"></div>
+                            </div>
+                            
+                            <!-- Highlight Image Placeholder -->
+                            <div class="rounded-[2.5rem] overflow-hidden shadow-xl border border-gray-100 bg-white">
+                                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=2000" 
+                                     alt="Staff Showcase" 
+                                     class="w-full h-auto max-h-[500px] object-cover"
+                                     onerror="this.style.display='none'">
+                                <div class="p-6 bg-white flex justify-between items-center">
+                                    <p class="text-gray-500 font-bold text-sm uppercase tracking-widest">Latest Community Update</p>
+                                    <span class="text-[10px] text-gray-400 font-mono">ID: 08221</span>
                                 </div>
                             </div>
                         </div>
@@ -189,8 +217,16 @@
 
                     <!-- Rules Tab -->
                     <div x-show="activeTab === 'rules'" x-cloak class="space-y-10">
-                        <div class="border-l-8 border-primary-teal pl-8 py-2">
-                            <h2 class="text-4xl font-black uppercase text-dark-teal">Code of Conduct</h2>
+                        <div class="relative rounded-[2.5rem] overflow-hidden bg-dark-teal p-1 flex items-center shadow-lg border border-white/5">
+                            <div class="w-full h-32 md:h-48 relative">
+                                <img src="image_9c8923.png" class="absolute inset-0 w-full h-full object-cover opacity-40" alt="Rules Banner">
+                                <div class="absolute inset-0 bg-gradient-to-r from-dark-teal via-dark-teal/80 to-transparent flex items-center px-10">
+                                    <div class="border-l-8 border-primary-teal pl-6">
+                                        <h2 class="text-3xl md:text-4xl font-black uppercase text-white tracking-tight">Code of Conduct</h2>
+                                        <p class="text-white/60 text-xs font-bold uppercase tracking-widest mt-1">Staff Guidelines & Regulations</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <template x-for="(rule, i) in [
